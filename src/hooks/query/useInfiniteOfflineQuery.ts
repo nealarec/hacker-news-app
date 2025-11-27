@@ -44,14 +44,13 @@ export function useInfiniteOfflineQuery<TData extends PaginatedResponse>({
           const cachedData =
             queryClient.getQueryData<InfiniteData<TData>>(queryKey);
 
-          if (cachedData?.pages[pageParam]) {
-            return cachedData.pages[pageParam];
-          }
+          const findPage = cachedData?.pages.find(
+            (page) => page.page === pageParam
+          );
 
-          // Si no hay datos en caché para la página solicitada, devolver la última página disponible
-          if (cachedData?.pages.length) {
-            return cachedData.pages[cachedData.pages.length - 1];
-          }
+          if (findPage) return findPage;
+
+          throw error;
         }
         throw error;
       }

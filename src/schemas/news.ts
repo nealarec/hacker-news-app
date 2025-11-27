@@ -55,3 +55,5 @@ export const HNApiResponseSchema = z.object({
 });
 
 export type HNApiResponse = z.infer<typeof HNApiResponseSchema>;
+
+export type HNDocument = z.infer<typeof DocumentSchema>;
