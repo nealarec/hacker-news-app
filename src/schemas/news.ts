@@ -17,7 +17,7 @@ const HighlightResultsSchema = z.object({
   comment_text: HighlightResultSchema.optional(),
 });
 
-export const DocumentSchema = z.object({
+export const HNArticleSchema = z.object({
   author: z.string().nullable(),
   children: z.array(z.number()).optional(),
   comment_text: z.string().optional(),
@@ -37,7 +37,7 @@ export const DocumentSchema = z.object({
 });
 
 // Schema for the main document/hit
-const HitSchema = DocumentSchema.extend({
+const HitSchema = HNArticleSchema.extend({
   _highlightResult: HighlightResultsSchema.optional(),
   _tags: z.array(z.string()),
 });
@@ -56,4 +56,4 @@ export const HNApiResponseSchema = z.object({
 
 export type HNApiResponse = z.infer<typeof HNApiResponseSchema>;
 
-export type HNDocument = z.infer<typeof DocumentSchema>;
+export type HNArticle = z.infer<typeof HNArticleSchema>;

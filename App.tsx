@@ -5,15 +5,38 @@ import { TamaguiProvider } from "tamagui";
 import { QueryProvider } from "./src/providers/QueryProvider";
 import NewDetailScreen from "./src/screens/NewDetailScreen";
 import NewsScreen from "./src/screens/NewsScreen";
+import StartedNewsScreen from "./src/screens/StartedNewsScreen";
+import HiddenNewsScreen from "./src/screens/HiddenNewsScreen";
 import config from "./tamagui.config";
+import { MaterialIcons } from "expo-vector-icons";
 
 const Tab = createBottomTabNavigator();
 const MainStack = createNativeStackNavigator();
 
+function tabIcon(name: string) {
+  return ({ size, color }: { size: number; color: string }) => (
+    <MaterialIcons name={name} size={size} color={color} />
+  );
+}
+
 const TabScreen = () => {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="News" component={NewsScreen} />
+      <Tab.Screen
+        name="News"
+        component={NewsScreen}
+        options={{ tabBarIcon: tabIcon("speaker-notes") }}
+      />
+      <Tab.Screen
+        name="Favorites"
+        component={StartedNewsScreen}
+        options={{ tabBarIcon: tabIcon("favorite") }}
+      />
+      <Tab.Screen
+        name="Hidden"
+        component={HiddenNewsScreen}
+        options={{ tabBarIcon: tabIcon("speaker-notes-off") }}
+      />
     </Tab.Navigator>
   );
 };

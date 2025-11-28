@@ -1,16 +1,16 @@
 // src/ui/article/card.tsx
 import React, { forwardRef } from "react";
-import { YStack, XStack, Text, styled, TamaguiElement } from "tamagui";
+import { YStack, XStack, Text, styled, TamaguiElement, Button } from "tamagui";
 import { formatDistanceToNow } from "date-fns";
 import { z } from "zod";
-import { DocumentSchema } from "../../schemas/news";
-
-// Extract the inferred type from DocumentSchema
-type Document = z.infer<typeof DocumentSchema>;
+import { HNArticle } from "../../schemas/news";
+import { MaterialIcons } from "expo-vector-icons";
 
 interface ArticleCardProps {
-  doc: Document;
+  doc: HNArticle;
   onPress?: () => void;
+  started?: boolean;
+  toggleStarted?: () => void;
 }
 
 export const ArticleCard = forwardRef<TamaguiElement, ArticleCardProps>(
@@ -18,6 +18,8 @@ export const ArticleCard = forwardRef<TamaguiElement, ArticleCardProps>(
     {
       doc: { author, created_at, story_title, points, num_comments, title },
       onPress,
+      started,
+      toggleStarted,
     }: ArticleCardProps,
     ref
   ) => {
@@ -37,17 +39,40 @@ export const ArticleCard = forwardRef<TamaguiElement, ArticleCardProps>(
     };
 
     return (
-      <Card onPress={onPress} ref={ref}>
+      <Card onPress={onPress} disabled={!onPress} ref={ref}>
         <YStack gap="$2">
-          <Text
-            fontSize="$5"
-            fontWeight="600"
-            color="$color12"
-            numberOfLines={2}
-            ellipsizeMode="tail"
-          >
-            {displayTitle}
-          </Text>
+          <XStack>
+            <YStack flex={1}>
+              <Text
+                fontSize="$5"
+                fontWeight="600"
+                color="$color12"
+                numberOfLines={2}
+                ellipsizeMode="tail"
+              >
+                {displayTitle}
+              </Text>
+            </YStack>
+            <YStack flex={0}>
+              <Button
+                size="$2"
+                variant="outlined"
+                onPress={toggleStarted}
+                disabled={!toggleStarted}
+                pressStyle={{
+                  backgroundColor: "#e8e2e2ff",
+                  borderColor: "transparent",
+                }}
+                icon={
+                  <MaterialIcons
+                    name={started ? "favorite" : "favorite-border"}
+                    size={25}
+                    color={started ? "#e03d3dff" : "#cacaca"}
+                  />
+                }
+              />
+            </YStack>
+          </XStack>
 
           <XStack alignItems="center" gap="$2" flexWrap="wrap">
             {points !== null && (
@@ -97,7 +122,6 @@ const Card = styled(YStack, {
   shadowRadius: 2,
   elevation: 2,
   pressStyle: {
-    opacity: 0.8,
-    backgroundColor: "$backgroundHover",
+    backgroundColor: "$gray5",
   },
 });

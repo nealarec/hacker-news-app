@@ -1,6 +1,6 @@
 import { InfiniteData, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getNewsById } from "../../services/news";
-import { HNApiResponse, HNDocument } from "../../schemas/news";
+import { HNApiResponse, HNArticle } from "../../schemas/news";
 
 const useArticleCacheLookup = () => {
   const queryClient = useQueryClient();
@@ -13,7 +13,7 @@ const useArticleCacheLookup = () => {
       .find((h) => h.objectID === id);
 
     if (doc) return doc;
-    return queryClient.getQueryData<HNDocument>(["news", id]);
+    return queryClient.getQueryData<HNArticle>(["news", id]);
   };
 };
 

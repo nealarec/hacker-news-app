@@ -3,51 +3,38 @@ import { useQueryClient } from "@tanstack/react-query";
 import { ArticleCard } from "../ui/article/card";
 import useNewsFeed from "../hooks/news/useNewsFeed";
 import { useNavigation } from "@react-navigation/native";
+import { Button, Stack, Text, View } from "tamagui";
+import { Feather } from "expo-vector-icons";
 import useStoredState from "../hooks/useStoredState";
 import { HNArticle } from "../schemas/news";
-import { View } from "react-native";
-import { Button, Stack, YStack } from "tamagui";
-import { MaterialIcons } from "expo-vector-icons";
 
 export default function NewsScreen() {
   const nav = useNavigation();
-  const queryClient = useQueryClient();
-  const { data, isLoading, fetchNextPage, hasNextPage } = useNewsFeed();
+  const [startedNews, setStartedNews] =
+    useStoredState<Record<string, HNArticle>>("startedNews");
   const [hiddenNews, setHiddenNews] =
     useStoredState<Record<string, HNArticle>>("hiddenNewsV2");
 
-  const [started, setStarted] =
-    useStoredState<Record<string, HNArticle>>("startedNews");
-
   return (
     <SwipeListView
-      data={data?.pages
-        .flatMap((page) => page.hits)
-        .filter((item) => !hiddenNews?.[item.objectID])}
-      refreshing={isLoading}
-      contentContainerStyle={{ padding: 16, gap: 12 }}
-      onRefresh={() => queryClient.invalidateQueries({ queryKey: ["news"] })}
-      onEndReached={() => hasNextPage && fetchNextPage()}
-      onEndReachedThreshold={0.5}
+      data={Object.values(startedNews || {}).filter(
+        (item) => !hiddenNews?.[item.objectID]
+      )}
       rightOpenValue={-60}
+      contentContainerStyle={{ padding: 16, gap: 12 }}
       disableRightSwipe
-      keyExtractor={(item) => item.objectID}
       renderItem={({ item }) => (
         <ArticleCard
           doc={item}
-          started={!!started?.[item.objectID]}
-          onPress={() => nav.navigate("NewDetail", { id: item.objectID })}
-          toggleStarted={() =>
-            setStarted((prev = {}) => {
+          started={true}
+          toggleStarted={() => {
+            setStartedNews((prev = {}) => {
               const newPrev = { ...prev };
-              if (newPrev[item.objectID]) {
-                delete newPrev[item.objectID];
-              } else {
-                newPrev[item.objectID] = item;
-              }
+              delete newPrev[item.objectID];
               return newPrev;
-            })
-          }
+            });
+          }}
+          onPress={() => nav.navigate("NewDetail", { id: item.objectID })}
         />
       )}
       renderHiddenItem={({ item }) => (
@@ -60,18 +47,20 @@ export default function NewsScreen() {
           backgroundColor="$red10"
         >
           <Button
+            color="$red1"
             variant="outlined"
             height={"100%"}
-            icon={<MaterialIcons name="delete" size={24} color="white" />}
             onPress={() => {
               setHiddenNews((prev = {}) => ({
                 ...prev,
                 [item.objectID]: item,
               }));
             }}
+            icon={<Feather name="trash" size={25} color={"#eee"} />}
           />
         </Stack>
       )}
+      keyExtractor={(item) => item.objectID}
     />
   );
 }

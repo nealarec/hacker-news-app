@@ -1,4 +1,4 @@
-import { HNApiResponseSchema, DocumentSchema } from "../schemas/news";
+import { HNApiResponseSchema, HNArticleSchema } from "../schemas/news";
 import { isNetworkError } from "../utils/isNetworkError";
 
 type NewQueries = "mobile" | "ios" | "android";
@@ -67,7 +67,7 @@ export async function getNewsById(id: string) {
     const data = await response.json();
 
     try {
-      return DocumentSchema.parse(data);
+      return HNArticleSchema.parse(data);
     } catch (parseError) {
       return null;
     }
