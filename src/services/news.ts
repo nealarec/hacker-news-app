@@ -3,8 +3,19 @@ import { isNetworkError } from "../utils/isNetworkError";
 
 type NewQueries = "mobile" | "ios" | "android";
 
-export async function getNews(page: number, query: NewQueries = "mobile") {
-  const url = `https://hn.algolia.com/api/v1/search_by_date?tags=story&query=${query}&page=${page}`;
+export async function getNews(
+  page: number,
+  query: NewQueries = "mobile",
+  since?: number
+) {
+  const url = new URL("https://hn.algolia.com/api/v1/search_by_date");
+  url.searchParams.set("tags", "story");
+  url.searchParams.set("query", query);
+  url.searchParams.set("page", page.toString());
+
+  if (since) {
+    url.searchParams.set("numericFilters", `created_at_i>${since}`);
+  }
 
   try {
     const response = await fetch(url, {

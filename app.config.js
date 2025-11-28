@@ -34,6 +34,7 @@ const config = {
           },
         },
       },
+      UIBackgroundModes: ["fetch", "remote-notification", "processing"],
     },
   },
   android: {
@@ -46,6 +47,10 @@ const config = {
     permissions: [
       "android.permission.INTERNET",
       "android.permission.ACCESS_NETWORK_STATE",
+      "android.permission.WAKE_LOCK",
+      "android.permission.RECEIVE_BOOT_COMPLETED",
+      "android.permission.FOREGROUND_SERVICE",
+      "android.permission.POST_NOTIFICATIONS",
     ],
   },
   web: {
@@ -66,6 +71,9 @@ const config = {
     // Agrega plugins de Expo aquí si es necesario
     // 'expo-font',
     // 'expo-secure-store',
+    "expo-notifications",
+    "expo-background-fetch",
+    "expo-task-manager",
   ],
 };
 

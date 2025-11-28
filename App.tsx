@@ -9,7 +9,20 @@ import StartedNewsScreen from "./src/screens/StartedNewsScreen";
 import HiddenNewsScreen from "./src/screens/HiddenNewsScreen";
 import config from "./tamagui.config";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useCallback } from "react";
+import { useEffect } from "react";
+import { usePermissions, setNotificationHandler } from "expo-notifications";
+import { useRegisterTasks } from "./src/background/fetchArticleTasks";
+import { useNotificationRedirect } from "./src/hooks/useNotificationRedirect";
+
+setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+    };
+  },
+});
 
 const Tab = createBottomTabNavigator();
 const MainStack = createNativeStackNavigator();
@@ -21,6 +34,7 @@ function tabIcon(name: React.ComponentProps<typeof MaterialIcons>["name"]) {
 }
 
 const TabScreen = () => {
+  useNotificationRedirect();
   return (
     <Tab.Navigator>
       <Tab.Screen
@@ -43,6 +57,14 @@ const TabScreen = () => {
 };
 
 export default function App() {
+  const [permissions, requestPermissions] = usePermissions();
+
+  useEffect(() => {
+    if (permissions?.status !== "granted") requestPermissions();
+  }, [permissions?.status]);
+
+  useRegisterTasks();
+
   return (
     <QueryProvider>
       <TamaguiProvider config={config} defaultTheme="light">
