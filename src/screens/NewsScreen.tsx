@@ -5,9 +5,8 @@ import useNewsFeed from "../hooks/news/useNewsFeed";
 import { useNavigation } from "@react-navigation/native";
 import useStoredState from "../hooks/useStoredState";
 import { HNArticle } from "../schemas/news";
-import { View } from "react-native";
 import { Button, Stack, YStack } from "tamagui";
-import { MaterialIcons } from "expo-vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function NewsScreen() {
   const nav = useNavigation();

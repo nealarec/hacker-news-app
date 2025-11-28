@@ -2,9 +2,8 @@
 import React, { forwardRef } from "react";
 import { YStack, XStack, Text, styled, TamaguiElement, Button } from "tamagui";
 import { formatDistanceToNow } from "date-fns";
-import { z } from "zod";
 import { HNArticle } from "../../schemas/news";
-import { MaterialIcons } from "expo-vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 interface ArticleCardProps {
   doc: HNArticle;

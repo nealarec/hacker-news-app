@@ -1,10 +1,8 @@
 import { SwipeListView } from "react-native-swipe-list-view";
-import { useQueryClient } from "@tanstack/react-query";
 import { ArticleCard } from "../ui/article/card";
-import useNewsFeed from "../hooks/news/useNewsFeed";
 import { useNavigation } from "@react-navigation/native";
-import { Button, Stack, Text, View } from "tamagui";
-import { Feather } from "expo-vector-icons";
+import { Button, Stack } from "tamagui";
+import { Feather } from "@expo/vector-icons";
 import useStoredState from "../hooks/useStoredState";
 import { HNArticle } from "../schemas/news";
 

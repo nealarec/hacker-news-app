@@ -8,12 +8,13 @@ import NewsScreen from "./src/screens/NewsScreen";
 import StartedNewsScreen from "./src/screens/StartedNewsScreen";
 import HiddenNewsScreen from "./src/screens/HiddenNewsScreen";
 import config from "./tamagui.config";
-import { MaterialIcons } from "expo-vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { useCallback } from "react";
 
 const Tab = createBottomTabNavigator();
 const MainStack = createNativeStackNavigator();
 
-function tabIcon(name: string) {
+function tabIcon(name: React.ComponentProps<typeof MaterialIcons>["name"]) {
   return ({ size, color }: { size: number; color: string }) => (
     <MaterialIcons name={name} size={size} color={color} />
   );
@@ -43,8 +44,8 @@ const TabScreen = () => {
 
 export default function App() {
   return (
-    <TamaguiProvider config={config} defaultTheme="light">
-      <QueryProvider>
+    <QueryProvider>
+      <TamaguiProvider config={config} defaultTheme="light">
         <NavigationContainer>
           <MainStack.Navigator>
             <MainStack.Screen
@@ -59,7 +60,7 @@ export default function App() {
             />
           </MainStack.Navigator>
         </NavigationContainer>
-      </QueryProvider>
-    </TamaguiProvider>
+      </TamaguiProvider>
+    </QueryProvider>
   );
 }

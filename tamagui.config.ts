@@ -4,15 +4,38 @@ import { shorthands } from "@tamagui/shorthands";
 import { themes, tokens } from "@tamagui/themes";
 import { createMedia } from "@tamagui/react-native-media-driver";
 
-const headingFont = createInterFont();
-const bodyFont = createInterFont();
+const systemFont = {
+  // Define los tamaños de fuente (puedes usar los valores por defecto)
+  size: {
+    1: 10,
+    2: 12,
+    3: 14,
+    4: 16,
+    5: 18,
+    6: 20,
+    7: 24,
+    8: 28,
+    9: 32,
+    10: 36,
+    11: 40,
+    12: 48,
+    13: 60,
+    14: 72,
+    15: 90,
+  },
+  // Define el peso y nombre de la fuente del sistema
+  face: {
+    normal: { normal: "System", fontWeight: "400" },
+    bold: { normal: "System", fontWeight: "700" },
+  },
+};
 
 const config = createTamagui({
   defaultTheme: "light",
   shorthands,
   fonts: {
-    heading: headingFont,
-    body: bodyFont,
+    heading: systemFont,
+    body: systemFont,
   },
   themes,
   tokens,

@@ -2,7 +2,7 @@ import { SwipeListView } from "react-native-swipe-list-view";
 import { ArticleCard } from "../ui/article/card";
 import { useNavigation } from "@react-navigation/native";
 import { Button, Stack } from "tamagui";
-import { MaterialIcons } from "expo-vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import useStoredState from "../hooks/useStoredState";
 import { HNArticle } from "../schemas/news";
 
