@@ -1,16 +1,16 @@
 import { HNApiResponseSchema, HNArticleSchema } from "../schemas/news";
 import { isNetworkError } from "../utils/isNetworkError";
 
-type NewQueries = "mobile" | "ios" | "android";
+type NewQueries = "ios" | "android" | undefined;
 
 export async function getNews(
   page: number,
-  query: NewQueries = "mobile",
+  query: NewQueries = undefined,
   since?: number
 ) {
   const url = new URL("https://hn.algolia.com/api/v1/search_by_date");
   url.searchParams.set("tags", "story");
-  url.searchParams.set("query", query);
+  url.searchParams.set("query", query ? `mobile ${query}` : "mobile");
   url.searchParams.set("page", page.toString());
 
   if (since) {

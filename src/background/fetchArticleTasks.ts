@@ -22,7 +22,20 @@ defineTask(TASK_NAME, async () => {
   try {
     let hasData = false;
     let [, queryClient] = await persistedQueryClient();
+    const configJson = await AsyncStorage.getItem("notifications");
+    if (!configJson) return BackgroundFetchResult.Failed;
+    const config = JSON.parse(configJson);
+    if (!config.enabled || (!config.ios && !config.android)) {
+      console.log("Notifications are disabled");
+      return BackgroundFetchResult.NoData;
+    }
+
     for (let query of ["ios", "android"] as const) {
+      if (!config[query]) {
+        console.log("Notifications are disabled for", query);
+        continue;
+      }
+
       console.log("Fetching news for", query);
       const [notified, news] = await Promise.all([
         AsyncStorage.getItem(`notified-${query}`),

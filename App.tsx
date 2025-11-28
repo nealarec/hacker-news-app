@@ -1,18 +1,20 @@
+import { MaterialIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { TamaguiProvider } from "tamagui";
-import { QueryProvider } from "./src/providers/QueryProvider";
-import NewDetailScreen from "./src/screens/NewDetailScreen";
-import NewsScreen from "./src/screens/NewsScreen";
-import StartedNewsScreen from "./src/screens/StartedNewsScreen";
-import HiddenNewsScreen from "./src/screens/HiddenNewsScreen";
-import config from "./tamagui.config";
-import { MaterialIcons } from "@expo/vector-icons";
+import { setNotificationHandler, usePermissions } from "expo-notifications";
 import { useEffect } from "react";
-import { usePermissions, setNotificationHandler } from "expo-notifications";
+import { TamaguiProvider } from "tamagui";
 import { useRegisterTasks } from "./src/background/fetchArticleTasks";
 import { useNotificationRedirect } from "./src/hooks/useNotificationRedirect";
+import { QueryProvider } from "./src/providers/QueryProvider";
+import HiddenNewsScreen from "./src/screens/HiddenNewsScreen";
+import NewDetailScreen from "./src/screens/NewDetailScreen";
+import NewsScreen from "./src/screens/NewsScreen";
+import SettingsScreen from "./src/screens/SettingsScreen";
+import StartedNewsScreen from "./src/screens/StartedNewsScreen";
+import config from "./tamagui.config";
+import useDefaultSettings from "./src/hooks/useDefaultSettings";
 
 setNotificationHandler({
   handleNotification: async () => {
@@ -52,6 +54,11 @@ const TabScreen = () => {
         component={HiddenNewsScreen}
         options={{ tabBarIcon: tabIcon("speaker-notes-off") }}
       />
+      <Tab.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{ tabBarIcon: tabIcon("settings") }}
+      />
     </Tab.Navigator>
   );
 };
@@ -64,6 +71,7 @@ export default function App() {
   }, [permissions?.status]);
 
   useRegisterTasks();
+  useDefaultSettings();
 
   return (
     <QueryProvider>
