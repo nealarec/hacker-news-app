@@ -71,6 +71,7 @@ const config = {
     // Agrega plugins de Expo aquí si es necesario
     // 'expo-font',
     // 'expo-secure-store',
+    "expo-asset",
     "expo-notifications",
     "expo-background-fetch",
     "expo-task-manager",

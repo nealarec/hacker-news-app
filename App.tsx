@@ -2,7 +2,11 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { setNotificationHandler, usePermissions } from "expo-notifications";
+import {
+  setNotificationHandler,
+  getPermissionsAsync,
+  requestPermissionsAsync,
+} from "expo-notifications";
 import { useEffect } from "react";
 import { TamaguiProvider } from "tamagui";
 import { useRegisterTasks } from "./src/background/fetchArticleTasks";
@@ -64,11 +68,12 @@ const TabScreen = () => {
 };
 
 export default function App() {
-  const [permissions, requestPermissions] = usePermissions();
-
   useEffect(() => {
-    if (permissions?.status !== "granted") requestPermissions();
-  }, [permissions?.status]);
+    (async () => {
+      const permissions = await getPermissionsAsync();
+      if (permissions?.status !== "granted") requestPermissionsAsync();
+    })();
+  }, []);
 
   useRegisterTasks();
   useDefaultSettings();
