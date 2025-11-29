@@ -4,7 +4,7 @@ import config from "../../tamagui.config";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { QueryClient } from "@tanstack/react-query";
 
-const queryClient = new QueryClient({
+export const testQClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: false,
@@ -14,12 +14,10 @@ const queryClient = new QueryClient({
 
 export default function wrapper({ children }: { children: React.ReactNode }) {
   return (
-    <NavigationContainer>
-      <TamaguiProvider config={config}>
-        <QueryClientProvider client={queryClient}>
-          {children}
-        </QueryClientProvider>
-      </TamaguiProvider>
-    </NavigationContainer>
+    <TamaguiProvider config={config}>
+      <QueryClientProvider client={testQClient}>
+        <NavigationContainer>{children}</NavigationContainer>
+      </QueryClientProvider>
+    </TamaguiProvider>
   );
 }

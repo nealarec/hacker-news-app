@@ -65,6 +65,10 @@ export async function getNewsById(id: string) {
     });
 
     if (!response.ok) {
+      if (response.status === 404) {
+        return null;
+      }
+
       const errorText = await response.text();
       console.error("API Error for news item:", {
         id,

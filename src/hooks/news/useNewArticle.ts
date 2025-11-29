@@ -19,13 +19,11 @@ const useArticleCacheLookup = () => {
 
 export default function useNewArticle(id: string) {
   const cacheLookUp = useArticleCacheLookup();
-  const { data, isLoading } = useQuery({
+  return useQuery({
     queryKey: ["news", id],
     queryFn: async () => {
       const art = cacheLookUp(id);
       return art ? art : await getNewsById(id);
     },
   });
-
-  return { data, isLoading };
 }

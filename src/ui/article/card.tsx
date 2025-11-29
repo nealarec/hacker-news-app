@@ -58,6 +58,8 @@ export const ArticleCard = forwardRef<TamaguiElement, ArticleCardProps>(
                 variant="outlined"
                 onPress={toggleStarted}
                 disabled={!toggleStarted}
+                aria-selected={started}
+                testID="news-item-started"
                 pressStyle={{
                   backgroundColor: "#e8e2e2ff",
                   borderColor: "transparent",

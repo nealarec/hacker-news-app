@@ -20,6 +20,7 @@ export default function NewsScreen() {
 
   return (
     <SwipeListView
+      testID="news-list"
       data={data?.pages
         .flatMap((page) => page.hits)
         .filter((item) => !hiddenNews?.[item.objectID])}
@@ -39,11 +40,8 @@ export default function NewsScreen() {
           toggleStarted={() =>
             setStarted((prev = {}) => {
               const newPrev = { ...prev };
-              if (newPrev[item.objectID]) {
-                delete newPrev[item.objectID];
-              } else {
-                newPrev[item.objectID] = item;
-              }
+              if (newPrev[item.objectID]) delete newPrev[item.objectID];
+              else newPrev[item.objectID] = item;
               return newPrev;
             })
           }
@@ -61,6 +59,7 @@ export default function NewsScreen() {
           <Button
             variant="outlined"
             height={"100%"}
+            testID="news-item-hidden"
             icon={<MaterialIcons name="delete" size={24} color="white" />}
             onPress={() => {
               setHiddenNews((prev = {}) => ({

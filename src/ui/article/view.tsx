@@ -12,5 +12,5 @@ const getDocumentSource = (doc: HNArticle) => {
 };
 
 export default function ArticleView({ data }: { data: HNArticle }) {
-  return <WebView source={getDocumentSource(data)} />;
+  return <WebView testID="article-view" source={getDocumentSource(data)} />;
 }
