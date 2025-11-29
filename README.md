@@ -117,6 +117,57 @@ The app uses React Query with AsyncStorage to cache API responses and provide an
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
+## Testing
+
+The app includes a comprehensive test suite to ensure reliability and catch regressions. The testing setup includes:
+
+### Running Tests
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm test -- --watch
+
+# Run tests with coverage report
+npm test -- --coverage
+```
+
+### Test Structure
+
+- Integration tests for components and their interactions
+- Unit tests for utility functions and hooks
+- End-to-end tests for critical user flows
+- Mocked API responses to test data fetching
+
+### Test Files
+
+Test files follow the naming convention `*.test.ts` or `*.test.tsx` and are located in `__tests__` directories next to the features they test. For example:
+
+```text
+src/
+├── components/
+│   ├── Button.tsx
+│   └── __tests__/
+│       └── Button.test.tsx
+│
+├── hooks/
+│   ├── useNews.ts
+│   └── __tests__/
+│       └── useNews.test.ts
+```
+
+### Writing Tests
+
+When adding new features or fixing bugs, please add or update the relevant tests. Follow these patterns:
+
+1. Test components in integration with their dependencies
+2. Mock external services and APIs
+3. Test both success and error cases
+4. Use descriptive test names that explain the expected behavior
+5. Focus on testing user interactions and data flow
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
